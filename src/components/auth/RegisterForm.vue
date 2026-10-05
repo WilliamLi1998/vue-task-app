@@ -48,6 +48,7 @@ const accountPattern = /^[a-z0-9._-]{4,20}$/;
 //     "general-affairs": "总务部",
 //     "human-resources": "人事部"
 // };
+//有效部门
 const ValidDepartments = [
   { title: "系统开发部", value: "development" },
   { title: "品质管理部", value: "quality" },
@@ -108,7 +109,7 @@ const departmentRules = [
         return true;
     }
 ]
-
+//密码更改后，重新验证两次密码输入是否一致
 watch(passwordInput, async () => {
   await form.value?.validate()
 })
@@ -120,11 +121,11 @@ function registerCheck(account, password, passwordCheck, name, department) {
     let editedPasswordCheck = passwordCheck.toString();
     let editedName = name.toString().trim();
     //正确错误状态
-    let accountInValid = true;
-    let passwordInValid = true;
-    let passwordCheckInValid = true;
-    let nameInValid = true;
-    let departmentInValid = true;
+    // let accountInValid = true;
+    // let passwordInValid = true;
+    // let passwordCheckInValid = true;
+    // let nameInValid = true;
+    // let departmentInValid = true;
 
     //账号格式校验
     if (!editedAccount) {
@@ -193,7 +194,7 @@ function register() {
     processing.value = true;
     startTimeCounter();
     //清除原有错误显示
-    errorMessage.value = {};
+    // errorMessage.value = {};
     //调用登陆函数
     registerCheck(accountInput.value, passwordInput.value, passwordCheckInput.value, nameInput.value, departmentInput.value);
 }
@@ -248,7 +249,7 @@ function register() {
         <!-- <p id="register-success" class="success-message"></p>
         <p id="register-confirm" class="success-message"></p> -->
 
-        <RouterLink :to="{ name: 'login' }" class="link">ログインページへ</RouterLink>
+        <RouterLink :to="{ name: 'login' }" class="link text-center d-block">ログインページへ</RouterLink>
     </v-form>
 </template>
 
