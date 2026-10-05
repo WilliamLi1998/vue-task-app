@@ -1,0 +1,396 @@
+/* 定义基本颜色与宽度 */
+:root {
+    --main--color: #1f4e79;
+    --deep--main--color: #102e4b;
+    --page--background: #f4f6f8;
+    --content--background: white;
+    --main: #2f2b2b;
+    --error--or--required: #780909;
+    --success: #207803;
+    --max--width: 1100px;
+    --min--width: 360px;
+}
+/* 宽度计算包括内边距边框 */
+* {
+    box-sizing: border-box;
+}
+/* 基本flex显示 */
+.flex {
+    display: flex;
+    gap: 5px;
+}
+/* 表格外容器滑动 */
+.wrap {
+    overflow-x: auto;
+}
+/* 长文本断行 */
+.long-text {
+    word-break: break-word;
+}
+/* 大文字居中 */
+.center-large-text {
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+/* 正文全体样式 */
+body {
+    font-family: "Microsoft Yahei", Arial, sans-serif;
+    color: var(--main);
+    font-size: 17px;
+    line-height: 1.5;
+
+    background-color: var(--page--background);
+    width: 90%;
+    max-width: var(--max--width);
+    min-width: var(--min--width);
+    margin: 0 auto;
+}
+main {
+    padding: 0 20px;
+}
+/* 标题 */
+/* header {
+    font-weight: 700;
+    color: var(--page--background);
+
+    height: 80px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--main--color);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+} */
+/* 导航栏 */
+/* nav {
+    font-weight: 700;
+    color: var(--page--background);
+
+    margin: 0 auto;
+    padding: 15px;
+    background-color: var(--deep--main--color);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 25px;
+} */
+/* 取消链接下划线 */
+/* nav a,
+.secondary-button-link,
+.middle-bar a,
+.main-button-link {
+    text-decoration: none;
+} */
+/* 取消链接颜色变化 */
+/* nav a:visited,
+.link:visited {
+    color: inherit;
+} */
+/* 导航栏对应列文字透明 */
+#HOME-001 .home-link,
+#LEAVE-001 .apply-link,
+#LEAVE-004 .applications-link {
+    opacity: 0.6;
+}
+/* 页面标题 */
+h2 {
+    font-size: 30px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+/* 盒子统一样式 白盒子 */
+.box {
+    margin: 0 auto 20px;
+    padding: 30px;
+    border-radius: 5px;
+
+    background-color: var(--content--background);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* 上方盒子 */
+.main-box {
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+/* 上方盒子个人信息区域 */
+.main-box-info {
+    flex: 0 1 400px;
+    min-width: 0;
+}
+/* 个人信息按grid布局 */
+.info-list {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+}
+/* 个人信息条目增加下边距 */
+.info-list dt,
+.info-list dd,
+ul li {
+    margin: 0 0 10px;
+}
+.info-list dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+/* 蓝色小盒子 内部分三行*/
+.blue-box {
+    margin: 0;
+    padding: 15px;
+    background-color: #a5cef3;
+    min-height: 120px;
+
+    flex: 0 1 170px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+}
+/* 蓝色盒子文字居中 */
+.blue-box p {
+    text-align: center;
+    /* width: 160px; */
+    /* flex: 1 150px; */
+    margin: 0 auto;
+}
+/* 大号蓝色文字 */
+.count,
+strong {
+    font-weight: 700;
+    font-size: 25px;
+    color: var(--main--color);
+}
+/* 上方盒子统计区域 蓝盒子空间*/
+.main-box-stat {
+    /* margin-left: auto; */
+    gap: 15px;
+    flex: 1 1 400px;
+    min-width: 0;
+    justify-content: flex-end;
+    /* flex: 1; */
+}
+
+/* 两列按钮盒子容器 根据需要可变单列 */
+.middle-bar,
+.date-bar,
+.confirm-button {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    gap: 20px;   
+}
+/* 中间盒子也要下边框 */
+.middle-box {
+    margin: 0 0 20px;
+}
+.middle-box a,
+.middle-box a:visited {
+    font-weight: 700;
+    color: var(--main--color);
+}
+/* 注册登录盒子宽度调窄 */
+.auth-container {
+    max-width: 450px;
+}
+
+.link {
+    text-decoration: underline;
+}
+
+/* 表单样式 */
+/* .auth-container label,
+.auth-container input, */
+label,
+input,
+.confirm-button a,
+.legacy-page button,
+select,
+textarea {
+    display: block;
+    width: 100%;
+    border-radius: 3px;
+    margin: 5px auto;
+    height: 40px;
+    line-height: 40px; 
+}
+/* 边框样式 */
+input,
+select,
+textarea,
+.secondary-button-link,
+fieldset {
+    border: 2px solid #c1c0c0;
+}
+input:valid,
+select:valid,
+textarea:valid,
+fieldset:valid {
+    border: 2px solid var(--success);
+}
+/* 单选多选框模仿风格 */
+fieldset {
+    border-radius: 3px;
+}
+/* 单选多选框保持行内 */
+fieldset label,
+fieldset input {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+}
+/* 调整选项距离 */
+.fieldset-content {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+/* 标签粗体 */
+label,
+legend {
+    font-weight: 700;
+}
+/* 选择框也粗体 */
+select {
+    font: inherit;
+}
+/* 长文本输入框样式 */
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+/* 禁用框变灰 */
+[disabled]{
+    background-color: #eee;
+}
+
+/* 按钮与模仿按钮样式 */
+.auth-container a,
+.legacy-page button,
+.confirm-button a {
+    height: auto;
+    /* background-color: var(--main--color);
+    color: var(--content--background); */
+    padding: 5px;
+    font-weight: 700;
+    font-size: 22px;
+    text-align: center;
+    /* margin: 0; */
+    cursor: pointer;
+}
+.legacy-page button,
+.main-button-link,
+.main-button-link:visited {
+    background-color: var(--main--color);
+    color: var(--content--background);
+}
+.secondary-button-link,
+.secondary-button-link:visited {
+    background-color: var(--content--background);
+    color: var(--main);
+}
+.auth-container a {   
+    font-size: 20px;
+
+    display: block;
+    border-radius: 3px;
+    margin: 5px auto;
+}
+
+/* 确认栏行标题表格样式 */
+table th,
+table td {
+    text-align: left;
+    padding: 10px;
+}
+/* 行标题表格分两列 后面可缩为一列 */
+.row-table tr {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    /* grid-template-rows: 1fr; */
+    margin: 0;
+    gap: 20px;   
+}
+/* 表格标题变色 */
+.deep-blue-box{
+    background-color: var(--deep--main--color);
+    color: var(--content--background);
+}
+/* 标题去除边框，全宽 */
+.borderless-table {
+    border: none;
+    /* outline: none; */
+    border-collapse: collapse;
+    width: 100%;
+    /* overflow-x: auto; */
+    /* border-spacing: 0; */
+}
+/* 必填文字样式 */
+.legacy-page span {
+    color: var(--error--or--required);
+    font-size: 15px;
+}
+.legacy-page span::before{
+    content: "*";
+    color: var(--error--or--required);
+}
+/* 靠右的小说明文字 */
+.right-text {
+    text-align: right;
+    margin: 0 auto 10px;
+}
+h3 {
+    margin-top: 0;
+}
+/* 响应式布局 */
+@media screen and (max-width: 600px) {
+    .row-table tr,
+    .middle-bar,
+    .date-bar,
+    .confirm-button {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }    
+}
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* 非法输入样式 */
+[aria-invalid="true"] {
+    border: 2px solid var(--error--or--required);
+    background-color: #fff1f2;
+}
+.error-message {
+    color: var(--error--or--required);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.success-message {
+    color: var(--success);
+}
+#home-button {
+    display: none;
+}
+/* input:placeholder-shown,
+select:placeholder-shown,
+textarea:placeholder-shown,
+fieldset:placeholder-shown {
+    border: 2px solid #c1c0c0;
+} */
+/* input:not(:placeholder-shown):invalid,
+select:not(:placeholder-shown):invalid,
+textarea:not(:placeholder-shown):invalid,
+fieldset:not(:placeholder-shown):invalid {
+    border: 2px solid var(--error--or--required);
+} */
+ /* input[aria-invalid="true"] {
+    border: 2px solid var(--error--or--required) !important;
+ } */
+

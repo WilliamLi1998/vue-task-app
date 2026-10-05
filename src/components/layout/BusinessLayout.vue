@@ -1,0 +1,34 @@
+<script setup>
+import { ref } from 'vue'
+
+const menuItems = [
+    { title: 'ホーム', to: { name: 'home' } },
+    { title: '休暇申請', to: { name: 'leave-apply' } },
+    { title: '申請一覧', to: { name: 'application-list' } },
+    { title: 'ログアウト', to: { name: 'login' } },
+]
+</script>
+
+<template>
+    <v-app>
+        <v-app-bar color="primary">
+            <v-app-bar-title>有給休暇申請システム</v-app-bar-title>
+        </v-app-bar>
+        <v-app-bar color="blue" elevation="0" :order="1">
+            <v-container class="d-flex align-center justify-start ga-2 px-0 ml-4">
+                <v-btn v-for="item in menuItems" :key="item.title" :to="item.to" variant="text" color="white">
+                    {{ item.title }}
+                </v-btn>
+            </v-container>
+        </v-app-bar>
+
+        <v-main>
+            <v-container class="py-6">
+                <h1 class="text-h4">ホーム</h1>
+                <slot></slot>
+            </v-container>
+        </v-main>
+    </v-app>
+</template>
+
+<style scoped></style>
