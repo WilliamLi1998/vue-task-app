@@ -3,12 +3,8 @@ import BusinessLayout from '../components/layout/BusinessLayout.vue';
 </script>
 
 <template>
-  <BusinessLayout>
+  <BusinessLayout title="申請内容確認">
     <main class="legacy-page">
-      <div>
-        <h2>申請内容確認</h2>
-      </div>
-
       <section class="box">
         <table class="row-table">
           <tbody>

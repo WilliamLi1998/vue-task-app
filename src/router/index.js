@@ -32,11 +32,21 @@ const routes = [
     path: '/applications',
     name: 'application-list',
     component: ApplicationListView,
-    children: [
-      { path: '/new', name: 'leave-apply', component: LeaveApplyView },
-      { path: '/confirm', name: 'leave-confirm', component: LeaveConfirmView },
-      { path: '/:id/complete', name: 'leave-complete', component: LeaveCompleteView },
-    ],
+  },
+  {
+    path: '/applications/new',
+    name: 'leave-apply',
+    component: LeaveApplyView,
+  },
+  {
+    path: '/applications/confirm',
+    name: 'leave-confirm',
+    component: LeaveConfirmView,
+  },
+  {
+    path: '/applications/:id/complete',
+    name: 'leave-complete',
+    component: LeaveCompleteView,
   },
   {
     path: '/:pathMatch(.*)*',

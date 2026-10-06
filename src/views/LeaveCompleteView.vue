@@ -3,12 +3,8 @@ import BusinessLayout from '../components/layout/BusinessLayout.vue';
 </script>
 
 <template>
-  <BusinessLayout>
+  <BusinessLayout title="申請完了">
     <main class="legacy-page">
-      <div>
-        <h2>申請完了</h2>
-      </div>
-
       <section class="box">
         <p class="center-large-text">申請が完了しました</p>
         <h3 class="long-text">受付番号：<strong>REQ-20260820-001</strong></h3>

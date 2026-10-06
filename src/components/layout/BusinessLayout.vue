@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 
+defineProps({
+  title:{ type:String, required: true}
+})
+
 const menuItems = [
     { title: 'ホーム', to: { name: 'home' } },
     { title: '休暇申請', to: { name: 'leave-apply' } },
@@ -24,7 +28,7 @@ const menuItems = [
 
         <v-main>
             <v-container class="py-6">
-                <h1 class="text-h4">ホーム</h1>
+                <h1 class="text-h4">{{ title }}</h1>
                 <slot></slot>
             </v-container>
         </v-main>

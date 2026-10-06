@@ -3,12 +3,8 @@ import BusinessLayout from '../components/layout/BusinessLayout.vue';
 </script>
 
 <template>
-  <BusinessLayout>
+  <BusinessLayout title="ホーム">
     <main class="legacy-page">
-        <div>
-            <h2>ホーム</h2>
-        </div>
-
         <div>
             <p class="right-text">基準日：2026年8月20日</p>
         </div>
