@@ -4,7 +4,7 @@ import LoginForm from '../components/auth/LoginForm.vue';
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthLayout title="ログイン">
     <LoginForm></LoginForm>
   </AuthLayout>
 </template>

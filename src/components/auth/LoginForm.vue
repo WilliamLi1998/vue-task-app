@@ -8,10 +8,11 @@ const router = useRouter()
 const savedAccount = "training.user";
 const savedPassword = "training123";
 //读取页面元素
-const formRef = (null);
+const formRef = ref(null);
+
 const accountInput = ref('');
 const passwordInput = ref('');
-
+//聚焦获取DOM
 const accountBar = ref(null);
 const passwordBar = ref(null);
 
@@ -40,6 +41,14 @@ const userInfo = {
 
 //计时器
 let timeCounter;
+
+function startTimeCounter() {
+    clearInterval(timeCounter);//清空旧定时器
+    //开始新定时器
+    timeCounter = setTimeout(() => {
+        processing.value = false;
+    }, 1000);
+}
 
 //账号密码校验函数
 const accountRules = [
@@ -110,13 +119,6 @@ function loginCheck(account, password) {
     }
 }
 
-function startTimeCounter() {
-    clearInterval(timeCounter);//清空旧定时器
-    //开始新定时器
-    timeCounter = setTimeout(() => {
-        processing.value = false;
-    }, 1000);
-}
 //登录按钮
 function login() {
     //点击后暂时禁用
@@ -148,12 +150,11 @@ async function submitForm() {
 </script>
 
 <template>
-    <v-form ref="formRef" @submit.prevent="submitForm" action="index.html" method="post" class="legacy-page">
+    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="index.html" method="post" class="legacy-page">
         <v-btn block color="primary" type="button" id="home-button" :to="{ name: 'home' }">ホームへ</v-btn>
         
         <v-text-field label="アカウント" id="account" name="account" type="text" minlength="4" maxlength="20"
-            autocomplete="username" required v-model="accountInput" :rules="accountRules" ref="accountBar"
-            validate-on="blur" />
+            autocomplete="username" required v-model="accountInput" :rules="accountRules" ref="accountBar" />
         <v-text-field label="パスワード" id="password" name="password" type="password" minlength="8" maxlength="32"
             autocomplete="off" required v-model="passwordInput" :rules="passwordRules" ref="passwordBar"
             validate-on="blur" />

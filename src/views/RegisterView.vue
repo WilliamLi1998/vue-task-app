@@ -4,7 +4,7 @@ import RegisterForm from '../components/auth/RegisterForm.vue';
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthLayout title="アカウント登録">
     <RegisterForm></RegisterForm>
   </AuthLayout>
 </template>

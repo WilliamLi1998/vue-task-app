@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -20,19 +20,29 @@ function startTimeCounter() {
 //     document.querySelector("form").reset();
 // });
 //读取页面元素
+const formRef = ref(null);
+
 const accountInput = ref('');
 const passwordInput = ref('');
 const passwordCheckInput = ref('');
 const nameInput = ref('');
 const departmentInput = ref('');
-
+//聚焦获取DOM
 const accountBar = ref(null);
 const passwordBar = ref(null);
 const passwordCheckBar = ref(null);
 const nameBar = ref(null);
 const departmentBar = ref(null);
 
-const errorMessage = ref({});
+const inputRefs = {
+    account: accountBar,
+    password: passwordBar,
+    passwordCheck: passwordCheckBar,
+    name: nameBar,
+    department: departmentBar
+}
+
+// const errorMessage = ref({});
 
 // const registerButton = document.getElementById("register-button");
 // const homeButton = document.getElementById("home-button");
@@ -84,7 +94,7 @@ const passwordCheckRules = [
     value => {
 
         if (!value) return "パスワードは空白にできません";
-        if (value !== passwordInput.value) return "パスワードは8～32文字で入力してください";
+        if (value !== passwordInput.value) return "確認用パスワードが一致しません";
 
         return true;
     }
@@ -199,15 +209,27 @@ function register() {
     registerCheck(accountInput.value, passwordInput.value, passwordCheckInput.value, nameInput.value, departmentInput.value);
 }
 
+async function submitForm() {
+    //点击后暂时禁用
+    processing.value = true;
+    startTimeCounter();
+    const { valid, errors } = await formRef.value.validate();
+    if (!valid) {
+        const firstError = errors[0];
+        const input = inputRefs[firstError.id];
+
+        input?.value?.focus();
+    }
+}
 </script>
 
 <template>
-    <v-form ref="formRef" @submit.prevent="submitForm" action="login.html" method="post" class="legacy-page">
+    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="login.html" method="post" class="legacy-page">
         <p>
             <!-- <label for="account">アカウント <span>必須</span></label> -->
             <v-text-field id="account" name="account" minlength="4" maxlength="20" pattern="[a-z0-9._\-]{4,20}"
                 title="半角英小文字、数字、「._-」のみ使用できます" required autocomplete="none" label="アカウント" v-model="accountInput"
-                ref="accountBar" />
+                :rules="accountRules" ref="accountBar" />
             半角英小文字、数字、「._-」のみ使用できます
         </p>
         <!-- <p id="accountError" class="error-message">{{ errorMessage.account }}</p> -->
@@ -215,21 +237,21 @@ function register() {
         <p>
             <!-- <label for="password">パスワード <span>必須</span></label> -->
             <v-text-field id="password" name="password" type="password" minlength="8" maxlength="32" autocomplete="none"
-                required label="パスワード" v-model="passwordInput" ref="passwordBar" />
+                required label="パスワード" v-model="passwordInput" :rules="passwordRules" ref="passwordBar" />
         </p>
         <!-- <p id="passwordError" class="error-message">{{ errorMessage.password }}</p> -->
 
         <p>
             <!-- <label for="password-check">パスワード (確認) <span>必須</span></label> -->
             <v-text-field id="password-check" name="password-check" type="password" minlength="8" maxlength="32"
-                required label="パスワード (確認)" v-model="passwordCheckInput" ref="passwordCheckBar" />
+                required label="パスワード (確認)" v-model="passwordCheckInput" :rules="passwordCheckRules" ref="passwordCheckBar" />
         </p>
         <!-- <p id="passwordCheckError" class="error-message">{{ errorMessage.passwordCheck }}</p> -->
 
         <p>
             <!-- <label for="name">氏名 <span>必須</span></label> -->
             <v-text-field id="name" name="name" minlength="2" maxlength="40" autocomplete="none" required label="氏名"
-                v-model="nameInput" ref="nameBar" />
+                v-model="nameInput" :rules="nameRules" ref="nameBar" />
         </p>
         <!-- <p id="nameError" class="error-message">{{ errorMessage.name }}</p> -->
 
@@ -241,7 +263,7 @@ function register() {
         <p>
             <!-- <label for="department">所属 <span>必須</span></label> -->
             <v-select id="department" name="department" autocomplete="none" required v-model="departmentInput"
-                ref="departmentBar" :items="ValidDepartments" label="所属" placeholder="お選びください"/>
+                ref="departmentBar" :items="ValidDepartments" label="所属" placeholder="お選びください" :rules="departmentRules"/>
         </p>
         <!-- <p id="departmentError" class="error-message">{{ errorMessage.department }}</p> -->
 

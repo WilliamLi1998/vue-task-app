@@ -1,5 +1,7 @@
 <script setup>
-
+defineProps({
+  title:{ type:String, required: true}
+})
 </script>
 
 <template>
@@ -10,7 +12,7 @@
 
     <v-main>
       <v-container class="py-6">
-        <h1 class="text-h4">ログイン</h1>
+        <h1 class="text-h4">{{title}}</h1>
         <v-card title="" text="" class="pa-8">
           <slot></slot>
         </v-card>
