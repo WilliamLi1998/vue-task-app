@@ -12,7 +12,11 @@ const formRef = ref(null);
 
 const accountInput = ref('');
 const passwordInput = ref('');
+
+const formError = ref('');
 //聚焦获取DOM
+const formErrorBar = ref(null);
+
 const accountBar = ref(null);
 const passwordBar = ref(null);
 
@@ -21,8 +25,6 @@ const inputRefs = {
     password: passwordBar
 }
 
-
-// const errorMessage = ref({});
 const processing = ref(false);
 // const loginButton = document.getElementById("login-button");
 // const homeButton = document.getElementById("home-button");
@@ -131,6 +133,7 @@ function login() {
 }
 
 async function submitForm() {
+    formError.value = "";
     //点击后暂时禁用
     processing.value = true;
     startTimeCounter();
@@ -140,25 +143,43 @@ async function submitForm() {
         const input = inputRefs[firstError.id];
 
         input?.value?.focus();
+
+        return;
+    }
+
+    if (accountInput.value === savedAccount && passwordInput.value === savedPassword) {
+        //保存登录状态
+        try {
+            sessionStorage.setItem("paidLeaveCurrentUser", JSON.stringify(userInfo));
+        } catch (error) {
+            accountBar.value?.focus();
+            formError.value = "ログイン状態の保存に失敗しました";
+            return;
+        }
+        router.push({ name: 'home' });
+        //账号密码错误处理
+    } else {
+        formError.value = "アカウントまたはパスワードが正しくありません";
+        accountBar.value?.focus();
     }
 }
-//跳转按钮
-// function toHome () {
-//     location.href = "index.html";
-// }
 
 </script>
 
 <template>
-    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="index.html" method="post" class="legacy-page">
+    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="index.html" method="post"
+        class="legacy-page">
+        <v-alert v-if="formError" ref="formErrorBar" type="error" variant="tonal" class="mb-4">
+            {{ formError }}
+        </v-alert>
+
         <v-btn block color="primary" type="button" id="home-button" :to="{ name: 'home' }">ホームへ</v-btn>
-        
+
         <v-text-field label="アカウント" id="account" name="account" type="text" minlength="4" maxlength="20"
             autocomplete="username" required v-model="accountInput" :rules="accountRules" ref="accountBar" />
         <v-text-field label="パスワード" id="password" name="password" type="password" minlength="8" maxlength="32"
             autocomplete="off" required v-model="passwordInput" :rules="passwordRules" ref="passwordBar"
             validate-on="blur" />
-
 
         <v-btn block color="primary" type="submit" id="login-button" :disabled="processing">ログイン</v-btn>
 
