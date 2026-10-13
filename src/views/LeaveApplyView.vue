@@ -257,17 +257,19 @@ async function submitForm() {
                         placeholder="お選びください" v-model="leaveTypeInput" :rules="leaveTypeRules" ref="leaveTypeBar"
                         @update:model-value="onFormChange" />
 
-                    <div class="date-bar">
-                        <p>
-                            <v-text-field label="開始日" id="beginning-date" name="beginning-date" type="date" required
-                                v-model="beginningDateInput" :rules="beginningDateRules" ref="beginningDateBar"
-                                @update:model-value="onFormChange" />
-                        </p>
-                        <p>
-                            <v-text-field label="終了日" id="ending-date" name="ending-date" type="date" required
-                                v-model="endingDateInput" :rules="endingDateRules" ref="endingDateBar" />
-                        </p>
-                    </div>
+                    <v-container class="px-0">
+                        <v-row>
+                            <v-col cols="12" md="6">
+                                <v-text-field label="開始日" id="beginning-date" name="beginning-date" type="date" required
+                                    v-model="beginningDateInput" :rules="beginningDateRules" ref="beginningDateBar"
+                                    @update:model-value="onFormChange" />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-text-field label="終了日" id="ending-date" name="ending-date" type="date" required
+                                    v-model="endingDateInput" :rules="endingDateRules" ref="endingDateBar" />
+                            </v-col>
+                        </v-row>
+                    </v-container>
 
                     <v-textarea label="申請理由" id="reason" name="reason" rows="4" cols="40" maxlength="200" required
                         v-model="reasonInput" :rules="reasonRules" ref="reasonBar" />
