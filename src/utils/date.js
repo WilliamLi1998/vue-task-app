@@ -63,3 +63,13 @@ export function calculateDateSpan(beginningDate, endingDate) {
     // console.log(dateSpan);
     return dateSpan;
 }
+
+export function formatDateTime(isoUtc) {
+    if (!isoUtc) return '-'
+
+    return new Intl.DateTimeFormat('ja-JP', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+        timeZone: 'Asia/Tokyo'
+    }).format(new Date(isoUtc))
+}

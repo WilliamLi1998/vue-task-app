@@ -50,7 +50,6 @@ import BusinessLayout from '../components/layout/BusinessLayout.vue';
         </table>
       </section>
 
-      <p>現在、絞り込み機能、ログインユーザーごとのデータ分離、およびキャンセル機能は未実装で、JavaScript実装時に対応します。</p>
     </main>
   </BusinessLayout>
 </template>

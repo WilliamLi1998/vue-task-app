@@ -16,7 +16,7 @@ const menuItems = [
 <template>
     <v-app>
         <v-app-bar color="primary">
-            <v-app-bar-title>有給休暇申請システム</v-app-bar-title>
+            <v-app-bar-title class="font-weight-bold">有給休暇申請システム</v-app-bar-title>
         </v-app-bar>
         <v-app-bar color="blue" elevation="0" :order="1">
             <v-container class="d-flex align-center justify-start ga-2 px-0 ml-4">

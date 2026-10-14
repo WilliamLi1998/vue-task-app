@@ -41,7 +41,6 @@ import BusinessLayout from '../components/layout/BusinessLayout.vue';
     </main>
 
     <footer>
-      <p>画面確認用のサンプルデータ</p>
     </footer>
   </BusinessLayout>
 </template>

@@ -164,6 +164,12 @@ async function submitForm() {
     }
 }
 
+const buttonStyle = {
+  block: true,
+  color: 'primary',
+  size: 'x-large',
+  class: 'my-4',
+}
 </script>
 
 <template>
@@ -173,7 +179,7 @@ async function submitForm() {
             {{ formError }}
         </v-alert>
 
-        <v-btn block color="primary" type="button" id="home-button" :to="{ name: 'home' }">ホームへ</v-btn>
+        <v-btn v-bind="buttonStyle" type="button" id="home-button" :to="{ name: 'home' }">ホームへ</v-btn>
 
         <v-text-field label="アカウント" id="account" name="account" type="text" minlength="4" maxlength="20"
             autocomplete="username" required v-model="accountInput" :rules="accountRules" ref="accountBar" />
@@ -181,7 +187,7 @@ async function submitForm() {
             autocomplete="off" required v-model="passwordInput" :rules="passwordRules" ref="passwordBar"
             validate-on="blur" />
 
-        <v-btn block color="primary" type="submit" id="login-button" :disabled="processing">ログイン</v-btn>
+        <v-btn v-bind="buttonStyle" type="submit" id="login-button" :disabled="processing">ログイン</v-btn>
 
         <RouterLink :to="{ name: 'register' }" class="link text-center d-block">アカウントをお持ちでない方</RouterLink>
     </v-form>

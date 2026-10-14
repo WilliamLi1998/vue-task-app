@@ -131,6 +131,13 @@ async function submitForm() {
     router.push({ name: 'login' });
 
 }
+
+const buttonStyle = {
+  block: true,
+  color: 'primary',
+  size: 'x-large',
+  class: 'my-4',
+}
 </script>
 
 <template>
@@ -161,7 +168,7 @@ async function submitForm() {
                 ref="departmentBar" :items="ValidDepartments" label="所属" placeholder="お選びください"
                 :rules="departmentRules" />
 
-        <v-btn block color="primary" type="submit" id="register-button" :disabled="processing">登録する</v-btn>
+        <v-btn v-bind="buttonStyle" type="submit" id="register-button" :disabled="processing">登録する</v-btn>
         <!-- <p id="register-success" class="success-message"></p>
         <p id="register-confirm" class="success-message"></p> -->
 
