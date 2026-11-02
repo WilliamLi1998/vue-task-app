@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 10000,
+  timeout: 1_0000,
   withCredentials: true
 })
 
@@ -23,3 +23,4 @@ export function toApiError(error) {
     details: error.response.data?.error?.details ?? []
   }
 }
+

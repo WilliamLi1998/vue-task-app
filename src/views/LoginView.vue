@@ -1,76 +1,60 @@
 <script setup>
 import AuthLayout from "../components/layout/AuthLayout.vue";
 import LoginForm from "../components/auth/LoginForm.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import AppMessage from "@/components/common/AppMessage.vue";
+import { useRoute, useRouter } from "vue-router";
+import { ref, onMounted, computed } from "vue";
+import { login } from "@/api/auth.js";
+import { toApiError } from "@/api/http.js";
+import { useAuth } from "@/stores/auth.js";
 
+const route = useRoute();
 const router = useRouter();
+
+const auth = useAuth();
+
 const processing = ref(false);
-//计时器
-let timeCounter;
-
-function startTimeCounter() {
-    clearInterval(timeCounter); //清空旧定时器
-    //开始新定时器
-    timeCounter = setTimeout(() => {
-        processing.value = false;
-    }, 1000);
-}
-//正确账号密码
-const savedAccount = "training.user";
-const savedPassword = "training123";
-
-const loginedIn = ref(false);
 
 const formError = ref("");
 const formRef = ref(null);
 
-//正确用户信息
-const userInfo = {
-    employeeNumber: "EMP-00001",
-    name: "山田 太郎",
-    department: "development",
-};
+//存在登录状态时显示跳转按钮
+const loginedIn = computed(() => !!auth.userInfo);
 
-//检查用户信息格式，正确后显示直接跳转按钮 待改
-const currentUserInfo = JSON.parse(sessionStorage.getItem("paidLeaveCurrentUser"));
-if (
-    currentUserInfo &&
-    currentUserInfo.employeeNumber &&
-    currentUserInfo.name &&
-    currentUserInfo.department
-) {
-    loginedIn.value = true;
-}
-
-function handleSubmit(formInput) {
+// 登录处理函数
+async function handleLogin(formInput) {
     formError.value = "";
-
-    //点击后暂时禁用
     processing.value = true;
-    startTimeCounter();
 
-    if (formInput.account === savedAccount && formInput.password === savedPassword) {
-        //保存登录状态
-        try {
-            sessionStorage.setItem("paidLeaveCurrentUser", JSON.stringify(userInfo));
-        } catch (error) {
-            formRef.value?.focusAccount();
-            formError.value = "ログイン状態の保存に失敗しました";
-            return;
+    try {
+        await login(formInput);
+        await auth.loadUserInfo();
+        //跳转主页或原页面
+        const redirect = route.query.redirect;
+        if (redirect) {
+            router.replace(redirect);
+        } else {
+            router.push({ name: 'home' });
         }
-        router.push({ name: "home" });
-        //账号密码错误处理
-    } else {
-        formError.value = "アカウントまたはパスワードが正しくありません";
+    } catch (error) {
         formRef.value?.focusAccount();
+        const apiError = toApiError(error);
+        formError.value = apiError.message;
+        console.error(error);
+    } finally {
+        processing.value = false;
     }
 }
 </script>
 
 <template>
+    <!-- 导入登入注册统一页面模板 -->
     <AuthLayout title="ログイン">
-        <LoginForm ref="formRef" :formError="formError" :loginedIn="loginedIn" :processing="processing" @submit="handleSubmit"></LoginForm>
+        <!-- 失败弹出错误信息 -->
+        <AppMessage ref="appMessageRef" :form-error="formError"></AppMessage>
+        <!-- 导入登录表单组件 -->
+        <LoginForm ref="formRef" :loginedIn="loginedIn" :processing="processing"
+            @submit="handleLogin" />
     </AuthLayout>
 </template>
 

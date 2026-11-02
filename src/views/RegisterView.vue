@@ -1,49 +1,86 @@
 <script setup>
 import AuthLayout from '../components/layout/AuthLayout.vue';
 import RegisterForm from '../components/auth/RegisterForm.vue';
+import AppMessage from '@/components/common/AppMessage.vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { getDepartments, login, registerUser } from '@/api/auth.js';
+import { toApiError } from '@/api/http.js';
+import { useAuth } from "@/stores/auth.js";
 
-const router = useRouter()
+
+const router = useRouter();
 
 const processing = ref(false);
-const formError = ref("");
-//计时器
-let timeCounter;
+const loadingDepartments = ref(false);
+const auth = useAuth();
 
-function startTimeCounter() {
-    clearInterval(timeCounter);//清空旧定时器
-    //开始新定时器
-    timeCounter = setTimeout(() => {
-        processing.value = false;
-    }, 2000);
+
+const formRef = ref(null);
+const formError = ref('');
+
+//有效部门数组
+const validDepartments = ref([]);
+
+async function loadDepartments() {
+    loadingDepartments.value = true;
+    formError.value = '';
+    // 取消signal与定时器
+    const controller = new AbortController();
+    const timerId = setTimeout(() => {
+        controller.abort();
+    }, 5000);
+
+    //调用api读取部门
+    try {
+        validDepartments.value = await getDepartments(controller.signal);
+    } catch (error) {
+        //调用处理函数，显示错误信息
+        const apiError = toApiError(error);
+        formError.value = apiError.message;
+        console.error(apiError);
+    } finally {
+        //读取结束后清理
+        loadingDepartments.value = false;
+        clearTimeout(timerId);
+    }
 }
+// 进入后自动调用pinia加载部门
+onMounted(() => {
+    loadDepartments();
+});
 
-//有效部门
-const validDepartments = [
-    { title: "系统开发部", value: "development" },
-    { title: "品质管理部", value: "quality" },
-    { title: "营业部", value: "sales" },
-    { title: "总务部", value: "general-affairs" },
-    { title: "人事部", value: "human-resources" }
-];
-
-function handleSubmit(formInput) {
+async function handleSubmit(formInput) {
     formError.value = "";
-
-    //点击后暂时禁用
     processing.value = true;
-    startTimeCounter();
 
-    alert(`入力内容を確認しました アカウント：${accountInput.value.toLowerCase().trim()}、氏名：${nameInput.value.trim()}、所属：${ValidDepartments[departmentInput.value]}`);
-
-    router.push({ name: 'login' });
+    try {
+        let registerResponse = await registerUser(formInput);
+        //输入信息弹窗
+        alert(`入力内容を確認しました 社員番号：${registerResponse.employeeNumber}、アカウント：${registerResponse.account}、氏名：${registerResponse.name}、所属：${validDepartments.value.find(validDepartment => validDepartment.value === registerResponse.department).label}`);
+        //跳转登陆页面
+        await login({ account: formInput.account, password: formInput.password });
+        await auth.loadUserInfo();
+        router.push({ name: 'home' });
+    } catch (error) {
+        formRef.value?.focusAccount();
+        const apiError = toApiError(error);
+        formError.value = apiError.message;
+    } finally {
+        processing.value = false;
+    }
 }
 </script>
 
 <template>
-  <AuthLayout title="アカウント登録">
-    <RegisterForm :formError="formError" :validDepartments="validDepartments" :processing="processing" @submit="handleSubmit"></RegisterForm>
-  </AuthLayout>
+    <!-- 导入登入注册统一页面模板 -->
+    <AuthLayout title="アカウント登録">
+        <!-- 失败弹出错误信息 -->
+        <AppMessage ref="appMessageRef" :form-error="formError" />
+        <!-- 导入注册表单组件 -->
+        <RegisterForm ref="formRef" :validDepartments="validDepartments" :processing="processing"
+            :loadingDepartments="loadingDepartments" @submit="handleSubmit" />
+    </AuthLayout>
 </template>
 
 <style scoped></style>

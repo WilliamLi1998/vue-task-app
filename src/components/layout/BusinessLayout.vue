@@ -1,16 +1,28 @@
 <script setup>
-import { ref } from 'vue'
+import { useAuth } from '@/stores/auth';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 defineProps({
-  title:{ type:String, required: true}
+  title:{ type:String, required: true }
 })
 
 const menuItems = [
     { title: 'ホーム', to: { name: 'home' } },
     { title: '休暇申請', to: { name: 'leave-apply' } },
     { title: '申請一覧', to: { name: 'application-list' } },
-    { title: 'ログアウト', to: { name: 'login' } },
 ]
+
+const auth = useAuth();
+const router = useRouter();
+
+async function logout() {
+    const success = await auth.clearUserInfo();
+
+    if (success) {
+        router.replace({ name:'login' });
+    }
+}
 </script>
 
 <template>
@@ -23,6 +35,7 @@ const menuItems = [
                 <v-btn v-for="item in menuItems" :key="item.title" :to="item.to" variant="text" color="white">
                     {{ item.title }}
                 </v-btn>
+                <v-btn @click="logout" variant="text" color="white" >ログアウト</v-btn>
             </v-container>
         </v-app-bar>
 

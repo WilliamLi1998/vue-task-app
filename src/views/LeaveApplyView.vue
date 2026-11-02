@@ -5,7 +5,8 @@ import LeaveForm from "@/components/applications/LeaveForm.vue";
 
 <template>
 	<BusinessLayout title="休暇申請">
-		<LeaveForm></LeaveForm>
+        <!-- 申请页面，导入申请表单 -->
+		<LeaveForm />
 	</BusinessLayout>
 </template>
 
