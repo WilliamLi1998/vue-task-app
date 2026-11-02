@@ -62,6 +62,7 @@ const routes = [
         meta: {
             requireAuth: true,
         },
+        // 在确认页必须有有效草稿，否则跳回申请页
         beforeEnter: () => {
             const application = useApplications();
             if (!application.applicationDraft) {
@@ -98,7 +99,7 @@ router.beforeEach(async (to) => {
     if (!auth.initialized) {
        await auth.loadUserInfo();
     }
-
+    // 无登录状态跳转登录页
     if (!auth.userInfo && to.meta.requireAuth && to.name !== 'login') {
         return {
             name: 'login',

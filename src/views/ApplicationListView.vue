@@ -12,6 +12,8 @@ const applications = useApplications();
 const params = ref({
     status: '',
     keyword: '',
+    startDate: '',
+    endDate: '',
 })
 // 加载一览表函数
 async function handleLoadList() {
@@ -23,6 +25,12 @@ async function handleLoadList() {
         }
         if (!searchParams.keyword) {
             delete searchParams.keyword;
+        }
+        if (!searchParams.startDate) {
+            delete searchParams.startDate;
+        }
+        if (!searchParams.endDate) {
+            delete searchParams.endDate;
         }
         //调用pinia一览表函数
         await applications.loadApplicationList(searchParams);
@@ -101,22 +109,22 @@ const headers = [
         </template>
         <!-- 失败弹出错误信息 -->
         <template v-else-if="applications.status === 'failed'">
-            <AppMessage ref="appMessageRef" :form-error="applications.errorMessage"></AppMessage>
+            <AppMessage ref="appMessageRef" :form-error="applications.errorMessage" />
         </template>
-        <!-- 无申请提示信息 -->
-        <template v-else-if="applications.status === 'loaded' && applications.applicationList.length === 0">
-            <p class="text-h2">申請はありません。</p>
-        </template>
-        <!-- 有申请但不符合筛选条件提示信息 -->
-        <template
-            v-else-if="applications.status === 'loaded' && applications.applicationList.length !== 0 && applications.filteredApplicationList.length === 0">
-            <p class="text-h2">検索条件に一致する申請はありません。</p>
-        </template>
-        <!-- 有符合条件申请，调用一览表组件 -->
-        <template v-else-if="applications.status === 'loaded' && applications.filteredApplicationList.length !== 0">
-            <ApplicationTable :headers="headers" :filteredApplicationList="applications.filteredApplicationList"
+        <!-- 成功加载后判断 -->
+        <template v-else-if="applications.status === 'loaded'">
+            <!-- 搜索失败弹出错误信息 -->
+            <AppMessage v-if="applications.errorMessage" ref="appMessageRef"
+                :form-error="applications.errorMessage" />
+            <!-- 无申请提示信息 -->
+            <p v-if="applications.applicationList.length === 0" class="text-h2">申請はありません。</p>
+            <!-- 有申请但不符合筛选条件提示信息 -->
+            <p v-else-if="applications.filteredApplicationList.length === 0" class="text-h2">検索条件に一致する申請はありません。</p>
+            <!-- 有符合条件申请，调用一览表组件 -->
+            <ApplicationTable v-else :headers="headers" :filteredApplicationList="applications.filteredApplicationList"
                 @cancel="tryCancel" />
         </template>
+
         <!-- 取消确认弹窗 -->
         <v-dialog v-model="dialog" max-width="450">
             <v-card>

@@ -25,6 +25,7 @@ export const useApplications = defineStore('application', () => {
             return dashboard.value;
         } catch (error) {
             const apiError = toApiError(error);
+            errorMessage.value = apiError.message;
             console.error(apiError);
         } finally {
             clearTimeout(timerId);
@@ -48,8 +49,11 @@ export const useApplications = defineStore('application', () => {
         }
     }
 
-    async function loadApplicationList(params) {
-        status.value = 'loading';
+    async function loadApplicationList(params = {}) {
+        errorMessage.value = '';
+        if (status.value !== 'loaded') {
+            status.value = 'loading';
+        }     
         const controller = new AbortController();
         const timerId = setTimeout(() => {
             controller.abort();
@@ -59,11 +63,12 @@ export const useApplications = defineStore('application', () => {
             applicationList.value = await getApplicationList({}, controller.signal);
             status.value = 'loaded';
         } catch (error) {
-            status.value = 'failed';
-            console.error(error);
             const apiError = toApiError(error);
-            errorMessage.value = apiError.message;
+            errorMessage.value = apiError.details?.[0]?.message || apiError.message;
             console.error(apiError);
+            if (status.value !== 'loaded') {
+                status.value = 'failed';
+            }      
         } finally {
             clearTimeout(timerId);
         }
@@ -128,9 +133,8 @@ export const useApplications = defineStore('application', () => {
         leaveApplication.value = null;
         applicationList.value = [];
         filteredApplicationList.value = [];
-        submitting.value = null;
-        status.value = '';
         submitting.value = false;
+        status.value = '';
         processing.value = false;
         errorMessage.value = '';
     }

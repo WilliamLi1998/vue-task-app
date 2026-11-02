@@ -12,8 +12,24 @@ export const handoverStatus = [
 ]
 //申请状态
 export const applicationStatus = [
-    { title: '申請中', value: 'pending' },
-    { title: '承認済', value: 'approved' },
-    { title: '差戻し', value: 'returned' },
-    { title: '取消済', value: 'cancelled' },
-]
+    {
+        title: "申請中",
+        value: "pending",
+        color: "warning",
+    },
+    {
+        title: "承認済",
+        value: "approved",
+        color: "success",
+    },
+    {
+        title: "差戻し",
+        value: "returned",
+        color: "error",
+    },
+    {
+        title: "取消済",
+        value: "cancelled",
+        color: "grey",
+    },
+];

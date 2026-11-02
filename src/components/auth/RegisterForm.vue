@@ -22,7 +22,6 @@ const formInput = ref({
     name: "",
     department: "",
 });
-
 //聚焦获取DOM
 const accountBar = ref(null);
 const passwordBar = ref(null);

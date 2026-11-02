@@ -85,14 +85,15 @@ const buttonStyle = {
 </script>
 
 <template>
-    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="index.html" method="post"
-        class="legacy-page">
+    <v-form ref="formRef" @submit.prevent="submitForm" validate-on="blur" action="index.html" method="post">
         <!-- 有登录信息时的快速按钮 -->
         <v-btn v-if="props.loginedIn" v-bind="buttonStyle" type="button" id="home-button"
             :to="{ name: 'home' }">ログイン済みの方はこちら</v-btn>
         <!-- 账号输入框 -->
         <v-text-field label="アカウント" id="account" name="account" type="text" minlength="4" maxlength="20"
-            autocomplete="username" required v-model.trim="formInput.account" @update:model-value="formInput.account = formInput.account.toLowerCase()" :rules="accountRules" ref="accountBar" />
+            autocomplete="username" required v-model.trim="formInput.account"
+            @update:model-value="formInput.account = formInput.account.toLowerCase()" :rules="accountRules"
+            ref="accountBar" />
         <!-- 密码输入框 -->
         <v-text-field label="パスワード" id="password" name="password" type="password" minlength="8" maxlength="32"
             autocomplete="off" required v-model="formInput.password" :rules="passwordRules" ref="passwordBar"
