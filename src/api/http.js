@@ -1,11 +1,11 @@
 import axios from 'axios'
-
+// api服务器基本配置
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 1_0000,
   withCredentials: true
 })
-
+// api统一错误信息
 export function toApiError(error) {
   if (!error.response) {
     return {

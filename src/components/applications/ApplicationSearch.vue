@@ -4,7 +4,7 @@ import { useApplications } from "@/stores/applications.js";
 
 const applications = useApplications();
 // v-model与一览表view同步表单输入查询条件
-const model = defineModel({ required: true })
+const model = defineModel({ required: true });
 // 请求一览表view条件搜索
 const emits = defineEmits(["search"]);
 async function requestLoadList() {
@@ -29,7 +29,7 @@ const buttonStyle = {
 }
 </script>
 <template>
-    <v-container>
+    <v-container fluid class="px-0">
         <!-- 申请搜索栏布局 -->
         <v-row align="center">
             <!-- 申请状态单选框 -->

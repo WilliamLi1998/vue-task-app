@@ -41,7 +41,7 @@ async function logout() {
         </v-app-bar>
 
         <v-main>
-            <v-container class="py-6">
+            <v-container fluid class="py-6" max-width="1100">
                 <!-- 动态显示传入标题 -->
                 <h1 class="text-h4">{{ title }}</h1>
                 <slot></slot>

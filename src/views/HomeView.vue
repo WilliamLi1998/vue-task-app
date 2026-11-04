@@ -62,6 +62,7 @@ const whiteCard = {
 
 <template>
     <BusinessLayout title="ホーム">
+        <!-- 失败弹出错误信息 -->
         <AppMessage ref="appMessageRef" :form-error="applications.errorMessage"></AppMessage>
         <!-- 显示基准日 -->
         <div>
@@ -81,7 +82,7 @@ const whiteCard = {
                     </v-col>
                     <!-- 上右汇总空间 -->
                     <v-col cols="12" md="8">
-                        <v-container class="text-center">
+                        <v-container class="text-center" v-if="dashboard">
                             <v-row>
                                 <v-col cols="12" md="4">
                                     <v-card v-bind="blueCard">
@@ -111,14 +112,14 @@ const whiteCard = {
             </v-container>
         </v-card>
         <!-- 中部卡片响应式布局 -->
-        <v-container class="px-0">
+        <v-container fluid class="px-0">
             <v-row>
                 <v-col cols="12" md="6">
                     <v-card :to="{ name: 'leave-apply' }" hover title="休暇を申請する" text="新しい休暇申請を入力します"
                         v-bind="whiteCard" />
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-card :to="{ name: 'leave-confirm' }" hover title="申請一覧を確認する" text="申請状況を検索・確認します"
+                    <v-card :to="{ name: 'application-list' }" hover title="申請一覧を確認する" text="申請状況を検索・確認します"
                         v-bind="whiteCard" />
                 </v-col>
             </v-row>

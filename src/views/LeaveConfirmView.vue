@@ -53,10 +53,11 @@ const whiteButtonStyle = {
 
 <template>
     <BusinessLayout title="申請内容確認">
+        <!-- 失败弹出错误信息 -->
         <AppMessage ref="appMessageRef" :form-error="applications.errorMessage" />
         <!-- 申请信息确认表显示草稿 -->
         <ApplicationSummary :paidLeaveDays="paidLeaveDays" :applicationDraft="applications.applicationDraft" />
-        <v-container>
+        <v-container fluid class="px-0">
             <v-row>
                 <v-col cols="12" md="6">
                     <!-- 修正按钮跳回申请页 -->

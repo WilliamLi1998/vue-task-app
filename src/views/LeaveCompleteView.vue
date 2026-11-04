@@ -44,7 +44,7 @@ const whiteCard = {
                 <strong class="text-primary">{{ applications.leaveApplication.receiptNumber }}</strong>
             </p>
         </v-card>
-        <v-container>
+        <v-container fluid class="px-0">
             <v-row>
                 <v-col cols="12" md="6">
                     <!-- 跳转主页按钮 -->

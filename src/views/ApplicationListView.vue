@@ -80,7 +80,7 @@ const headers = [
     { title: '申請日数', key: 'leaveDays' },
     { title: '状態', key: 'status' },
 ]
-
+// 未来 申请状态多选全选
 // const allSelected = computed({
 //     get() {
 //         return selectedStatuses.value.length === applicationStatus.length;
@@ -95,6 +95,7 @@ const headers = [
 
 <template>
     <BusinessLayout title="申請一覧">
+        <!-- 未来 申请状态多选对应 -->
         <!-- <div class="d-flex flex-nowrap align-center">
             <v-label>申請状態</v-label>
             <v-checkbox v-model="allSelected" label="全選択" hide-details class="mr-4" />

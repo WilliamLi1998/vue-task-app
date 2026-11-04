@@ -3,7 +3,7 @@ import { validLeaveType } from '@/constants/masterData';
 import ApplicationStatusBadge from './ApplicationStatusBadge.vue';
 // 从申请一览view接受表头与申请一览数据
 const props = defineProps({
-    headers: { type: Object, required: true },
+    headers: { type: Array, required: true },
     filteredApplicationList: { type: Array, required: true },
 })
 // 收到标签请求后,进一步请求申请一览view取消申请
@@ -20,7 +20,7 @@ const whiteCard = {
     <v-card v-bind="whiteCard">
         <!-- 显示动态表格, 按ID升序, 说明文字用日语 -->
         <v-data-table :headers="props.headers" :items="props.filteredApplicationList" item-value="id"
-            :sort-by="[{ key: 'id', order: 'aec' }]" items-per-page-text="1ページあたりの表示件数">
+            :sort-by="[{ key: 'id', order: 'asc' }]" items-per-page-text="1ページあたりの表示件数">
             <template #item.leaveType="{ item }">
                 <!-- 转换显示休暇種別文字 -->
                 {{
